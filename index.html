@@ -1,2 +1,335 @@
-<h1>Hello, World!</h1>
-<p>我的第一个 GitHub Pages 网站</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MixMate 调酒助手 - 专业鸡尾酒配方与调制指南</title>
+    <meta name="description" content="专业的鸡尾酒配方与调制助手，根据您的材料、口味偏好和场合需求，推荐完美的鸡尾酒配方">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🍸</span>
+                <h1>MixMate</h1>
+                <span class="logo-sub">调酒助手</span>
+            </div>
+            <nav class="nav">
+                <a href="#materials" class="nav-link" data-scene="materials">材料匹配</a>
+                <a href="#taste" class="nav-link" data-scene="taste">口味探索</a>
+                <a href="#learn" class="nav-link" data-scene="learn">学习调制</a>
+                <a href="#create" class="nav-link" data-scene="create">创意调酒</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主视觉横幅 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">探索鸡尾酒的<br><span class="highlight">艺术世界</span></h2>
+            <p class="hero-subtitle">根据您的材料、口味与场合，找到专属于您的完美配方</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-num">50+</span>
+                    <span class="stat-label">精选配方</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">4</span>
+                    <span class="stat-label">交互场景</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">6</span>
+                    <span class="stat-label">基酒分类</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 场景选择卡片 -->
+    <section class="scenes">
+        <h3 class="section-title">选择您的调酒方式</h3>
+        <div class="scene-cards">
+            <div class="scene-card" data-scene="materials">
+                <div class="scene-icon">🧺</div>
+                <h4>材料匹配模式</h4>
+                <p>输入您手头现有的酒类和辅料，为您匹配可以调制的鸡尾酒</p>
+                <span class="scene-cta">开始匹配 →</span>
+            </div>
+            <div class="scene-card" data-scene="taste">
+                <div class="scene-icon">🎨</div>
+                <h4>口味探索模式</h4>
+                <p>告诉我们您的口味偏好和场合，为您推荐最适合的饮品</p>
+                <span class="scene-cta">开始探索 →</span>
+            </div>
+            <div class="scene-card" data-scene="learn">
+                <div class="scene-icon">📚</div>
+                <h4>学习模式</h4>
+                <p>学习专业的摇和、调和、分层与装饰技巧，成为调酒达人</p>
+                <span class="scene-cta">开始学习 →</span>
+            </div>
+            <div class="scene-card" data-scene="create">
+                <div class="scene-icon">✨</div>
+                <h4>创意调酒模式</h4>
+                <p>根据主题或材料，生成独一无二的原创鸡尾酒配方</p>
+                <span class="scene-cta">开始创作 →</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 场景一：材料匹配模式 -->
+    <section id="materials" class="scene-section">
+        <div class="section-header">
+            <span class="section-badge">场景一</span>
+            <h3>🧺 材料匹配模式</h3>
+            <p>请选择您手头可用的材料，我将为您匹配可调制的鸡尾酒</p>
+        </div>
+
+        <!-- 基酒选择 -->
+        <div class="material-group">
+            <h4>六大基酒</h4>
+            <div class="material-tags" id="base-spirits"></div>
+        </div>
+
+        <!-- 利口酒选择 -->
+        <div class="material-group">
+            <h4>利口酒</h4>
+            <div class="material-tags" id="liqueurs"></div>
+        </div>
+
+        <!-- 辅料选择 -->
+        <div class="material-group">
+            <h4>常用辅料</h4>
+            <div class="material-tags" id="ingredients"></div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn btn-secondary" id="clear-materials">清空选择</button>
+            <button class="btn btn-primary" id="match-materials">🔍 匹配配方</button>
+        </div>
+
+        <!-- 匹配结果 -->
+        <div class="results" id="materials-results"></div>
+    </section>
+
+    <!-- 场景二：口味探索模式 -->
+    <section id="taste" class="scene-section">
+        <div class="section-header">
+            <span class="section-badge">场景二</span>
+            <h3>🎨 口味探索模式</h3>
+            <p>告诉我们您的口味偏好和场合，为您推荐最适合的饮品</p>
+        </div>
+
+        <div class="taste-grid">
+            <!-- 甜度 -->
+            <div class="taste-item">
+                <label>甜度偏好</label>
+                <div class="slider-container">
+                    <input type="range" min="1" max="10" value="5" class="taste-slider" id="sweetness">
+                    <div class="slider-labels">
+                        <span>干型</span>
+                        <span class="slider-value" id="sweetness-value">5</span>
+                        <span>甜型</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 酸度 -->
+            <div class="taste-item">
+                <label>酸度偏好</label>
+                <div class="slider-container">
+                    <input type="range" min="1" max="10" value="5" class="taste-slider" id="acidity">
+                    <div class="slider-labels">
+                        <span>柔和</span>
+                        <span class="slider-value" id="acidity-value">5</span>
+                        <span>清爽</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 烈度 -->
+            <div class="taste-item">
+                <label>烈度偏好</label>
+                <div class="slider-container">
+                    <input type="range" min="1" max="10" value="5" class="taste-slider" id="strength">
+                    <div class="slider-labels">
+                        <span>轻盈</span>
+                        <span class="slider-value" id="strength-value">5</span>
+                        <span>浓烈</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 风味维度 -->
+            <div class="taste-item">
+                <label>风味维度（可多选）</label>
+                <div class="flavor-tags" id="flavor-tags">
+                    <span class="flavor-tag" data-flavor="果香">🍎 果香</span>
+                    <span class="flavor-tag" data-flavor="草本">🌿 草本</span>
+                    <span class="flavor-tag" data-flavor="香料">🌶️ 香料</span>
+                    <span class="flavor-tag" data-flavor="烟熏">🔥 烟熏</span>
+                    <span class="flavor-tag" data-flavor="花香">🌸 花香</span>
+                    <span class="flavor-tag" data-flavor="坚果">🥜 坚果</span>
+                    <span class="flavor-tag" data-flavor="奶油">🥛 奶油</span>
+                    <span class="flavor-tag" data-flavor="巧克力">🍫 巧克力</span>
+                </div>
+            </div>
+
+            <!-- 场合选择 -->
+            <div class="taste-item">
+                <label>场合类型</label>
+                <div class="occasion-tags" id="occasion-tags">
+                    <span class="occasion-tag" data-occasion="独酌放松">🛋️ 独酌放松</span>
+                    <span class="occasion-tag" data-occasion="浪漫约会">💖 浪漫约会</span>
+                    <span class="occasion-tag" data-occasion="朋友聚会">🎉 朋友聚会</span>
+                    <span class="occasion-tag" data-occasion="餐前开胃">🍽️ 餐前开胃</span>
+                    <span class="occasion-tag" data-occasion="餐后消化">☕ 餐后消化</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn btn-secondary" id="reset-taste">重置偏好</button>
+            <button class="btn btn-primary" id="match-taste">✨ 探索推荐</button>
+        </div>
+
+        <div class="results" id="taste-results"></div>
+    </section>
+
+    <!-- 场景三：学习模式 -->
+    <section id="learn" class="scene-section">
+        <div class="section-header">
+            <span class="section-badge">场景三</span>
+            <h3>📚 学习模式</h3>
+            <p>学习专业的调制技巧，从入门到精通，掌握调酒艺术</p>
+        </div>
+
+        <div class="techniques">
+            <div class="technique-card" data-tech="shake">
+                <div class="tech-icon">🍶</div>
+                <h4>摇和法 (Shake)</h4>
+                <p>最常用的调制方式，适用于含果汁、奶油、蛋清的饮品。通过剧烈摇晃使材料充分混合并降温。</p>
+            </div>
+            <div class="technique-card" data-tech="stir">
+                <div class="tech-icon">🥄</div>
+                <h4>调和法 (Stir)</h4>
+                <p>优雅的调制方式，适用于纯酒类饮品。通过缓慢搅拌保持酒体清澈，达到理想温度。</p>
+            </div>
+            <div class="technique-card" data-tech="build">
+                <div class="tech-icon">🧊</div>
+                <h4>兑和法 (Build)</h4>
+                <p>最简单的方式，将材料依次加入杯中。适用于长饮类饮品，如金汤力、自由古巴。</p>
+            </div>
+            <div class="technique-card" data-tech="layer">
+                <div class="tech-icon">🌈</div>
+                <h4>分层法 (Layer)</h4>
+                <p>利用酒液密度差异实现分层效果。操作较难，但视觉效果极佳，适合展示类饮品。</p>
+            </div>
+            <div class="technique-card" data-tech="blend">
+                <div class="tech-icon">🥤</div>
+                <h4>搅和法 (Blend)</h4>
+                <p>使用搅拌机将材料与冰打碎。适合冰冻类饮品，如草莓戴克丽、椰林飘香。</p>
+            </div>
+            <div class="technique-card" data-tech="muddle">
+                <div class="tech-icon">🍃</div>
+                <h4>捣压法 (Muddle)</h4>
+                <p>用捣棒压碎香草、水果或糖。释放芳香物质，是莫吉托、薄荷茱莉普等的关键步骤。</p>
+            </div>
+        </div>
+
+        <!-- 技巧详情模态框 -->
+        <div id="technique-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" id="modal-close">&times;</span>
+                <div id="technique-detail"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 场景四：创意调酒模式 -->
+    <section id="create" class="scene-section">
+        <div class="section-header">
+            <span class="section-badge">场景四</span>
+            <h3>✨ 创意调酒模式</h3>
+            <p>告诉我们您的主题或灵感，为您生成独一无二的原创配方</p>
+        </div>
+
+        <div class="create-grid">
+            <div class="create-item">
+                <label>选择主基酒</label>
+                <select id="create-base" class="select-input">
+                    <option value="">请选择...</option>
+                    <option value="威士忌">威士忌</option>
+                    <option value="白兰地">白兰地</option>
+                    <option value="金酒">金酒</option>
+                    <option value="朗姆酒">朗姆酒</option>
+                    <option value="伏特加">伏特加</option>
+                    <option value="龙舌兰">龙舌兰</option>
+                </select>
+            </div>
+            <div class="create-item">
+                <label>创作主题</label>
+                <select id="create-theme" class="select-input">
+                    <option value="">请选择...</option>
+                    <option value="夏日清新">夏日清新</option>
+                    <option value="冬日暖语">冬日暖语</option>
+                    <option value="东方韵味">东方韵味</option>
+                    <option value="热带风情">热带风情</option>
+                    <option value="花香诗意">花香诗意</option>
+                    <option value="夜色迷情">夜色迷情</option>
+                </select>
+            </div>
+            <div class="create-item">
+                <label>目标口感</label>
+                <select id="create-feel" class="select-input">
+                    <option value="">请选择...</option>
+                    <option value="清爽果味">清爽果味</option>
+                    <option value="醇厚香料">醇厚香料</option>
+                    <option value="柔顺奶油">柔顺奶油</option>
+                    <option value="优雅花香">优雅花香</option>
+                    <option value="清新草本">清新草本</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn btn-primary" id="generate-creative">🎨 生成创意配方</button>
+        </div>
+
+        <div class="results" id="creative-results"></div>
+    </section>
+
+    <!-- 安全提示 -->
+    <section class="safety-notice">
+        <div class="safety-content">
+            <h3>⚠️ 饮酒安全提示</h3>
+            <p>请理性饮酒，切勿酒驾 | 孕妇及未成年人禁止饮酒 | 部分配方含过敏原（鸡蛋、乳制品、坚果等），请根据自身情况饮用</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">🍸</span>
+                <span>MixMate 调酒助手</span>
+            </div>
+            <p>专业的鸡尾酒配方与调制指南 · 让每一杯都是完美的邂逅</p>
+            <p class="copyright">© 2026 MixMate Cocktail Assistant</p>
+        </div>
+    </footer>
+
+    <!-- 配方详情模态框 -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content recipe-modal">
+            <span class="modal-close" id="recipe-close">&times;</span>
+            <div id="recipe-detail"></div>
+        </div>
+    </div>
+
+    <script src="recipes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
