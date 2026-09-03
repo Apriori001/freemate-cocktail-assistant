@@ -3,30 +3,43 @@
    配色：深金棕 + 琥珀色 + 暖米白，营造精致酒吧氛围
    ======================================== */
 
-/* ---------- CSS 变量定义 ---------- */
+/* ---------- CSS 变量定义（琥珀金 · 墨玉色 · 暖米白 高级典雅配色） ---------- */
 :root {
-    --color-bg: #1a1410;              /* 深棕背景 */
-    --color-bg-soft: #251c16;         /* 次要背景 */
-    --color-gold: #c9a55c;            /* 主金色 */
-    --color-gold-light: #e8c88a;      /* 浅金色 */
-    --color-gold-dark: #9e7c3f;       /* 深金色 */
-    --color-text: #f4ece0;            /* 主文字色（暖米白） */
-    --color-text-soft: #b8a994;       /* 次要文字色 */
-    --color-card: #2d231c;            /* 卡片背景 */
-    --color-border: #3d3024;          /* 边框色 */
-    --color-accent: #d4a373;          /* 琥珀色强调 */
-    --color-success: #7cae7a;         /* 成功色（有材料） */
-    --color-warning: #e8746a;         /* 警告色（缺材料） */
-    
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-    --shadow-gold: 0 0 30px rgba(201, 165, 92, 0.3);
-    
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 20px;
-    
+    /* 主背景：深夜墨玉色 */
+    --color-bg: #14100d;
+    --color-bg-soft: #1e1814;         /* 次要背景（更软） */
+    --color-bg-lift: #2a2119;         /* 卡片/抬升层背景 */
+
+    /* 琥珀金 —— 强调色 */
+    --color-gold: #c8a96a;             /* 主金色（柔和、高级） */
+    --color-gold-light: #e9d4a5;       /* 浅金色 */
+    --color-gold-dark: #8a6a37;        /* 深金色 */
+    --color-gold-soft: rgba(200, 169, 106, 0.15);
+
+    /* 文字色（暖米白系列） */
+    --color-text: #f4ece0;             /* 主文字色 */
+    --color-text-soft: #bfb098;        /* 次要文字色 */
+    --color-text-dim: #8a7e6c;         /* 弱化文字色 */
+
+    /* 容器与边框 */
+    --color-card: #241c15;
+    --color-border: #3a2f22;
+    --color-border-soft: rgba(200, 169, 106, 0.22);
+
+    --color-accent: #d4a373;
+    --color-success: #8ab385;
+    --color-warning: #e0877d;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.55);
+    --shadow-gold: 0 0 32px rgba(200, 169, 106, 0.25);
+    --shadow-gold-soft: 0 0 16px rgba(200, 169, 106, 0.18);
+
+    --radius-sm: 4px;
+    --radius-md: 10px;
+    --radius-lg: 18px;
+
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1185,4 +1198,352 @@ body::before {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gold-dark);
+}
+
+
+/* ============================================================
+   【新增】配方详情模态框 · 新增元素样式（冰块/家庭份量/器材/拍照指南）
+   ============================================================ */
+
+.detail-section {
+    margin-bottom: 28px;
+}
+
+.detail-heading {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-gold-light);
+    margin: 0 0 14px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--color-gold);
+    letter-spacing: 2px;
+}
+
+/* 信息栅格（冰块/份量/器材/拍照等字段展示） */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.info-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    background: rgba(200, 169, 106, 0.06);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.info-cell:hover {
+    background: rgba(200, 169, 106, 0.10);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold-soft);
+}
+
+.info-label {
+    font-size: 12px;
+    color: var(--color-text-dim);
+    letter-spacing: 2px;
+    display: block;
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.65;
+    display: block;
+}
+
+/* 提示块（装饰建议 / 小贴士 / 故事 等） */
+.tip-box {
+    padding: 16px 20px;
+    background: rgba(200, 169, 106, 0.08);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.85;
+    margin-top: 12px;
+}
+
+.tip-box strong {
+    color: var(--color-gold-light);
+    font-weight: 600;
+}
+
+.story-box {
+    background: rgba(212, 163, 115, 0.08);
+    border-color: rgba(212, 163, 115, 0.25);
+    font-style: italic;
+}
+
+/* 材料清单表格（更高级的表格样式） */
+.ingredient-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ingredient-table tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s ease;
+}
+
+.ingredient-table tr:hover {
+    background: rgba(200, 169, 106, 0.05);
+}
+
+.ingredient-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+    color: var(--color-text);
+    vertical-align: top;
+}
+
+.ing-name {
+    color: var(--color-gold-light) !important;
+    font-weight: 600;
+    width: 30%;
+}
+
+.ing-amount {
+    text-align: center !important;
+    width: 25%;
+}
+
+.ing-note {
+    text-align: right !important;
+    width: 45%;
+    color: var(--color-text-dim) !important;
+    font-size: 12px !important;
+}
+
+/* 步骤列表（带序号圆圈） */
+.steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.steps-list li {
+    position: relative;
+    padding: 12px 0 12px 56px;
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.85;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s ease;
+}
+
+.steps-list li:hover {
+    background: rgba(200, 169, 106, 0.04);
+}
+
+.step-num {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 14px;
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+    color: var(--color-bg);
+    box-shadow: var(--shadow-gold-soft);
+}
+
+/* 配方详情：头部标题的英/中/风味标签（app.js 中已经使用的类） */
+.recipe-detail-header {
+    text-align: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 36px;
+}
+
+.detail-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--color-gold-light);
+    letter-spacing: 4px;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 12px rgba(200, 169, 106, 0.25);
+}
+
+.detail-en {
+    font-size: 12px;
+    color: var(--color-text-dim);
+    letter-spacing: 3px;
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.detail-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    margin: 20px auto;
+    opacity: 0.85;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--color-text-soft);
+    margin-bottom: 10px;
+}
+
+.detail-meta strong {
+    color: var(--color-gold-light);
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.detail-flavors {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--color-text-soft);
+    letter-spacing: 1px;
+}
+
+/* 导航 hover 时的辉光（提升高级感） */
+.header {
+    background: rgba(20, 16, 13, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.logo h1 {
+    color: var(--color-gold-light);
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 680px;
+    height: 680px;
+    background: radial-gradient(closest-side, rgba(200, 169, 106, 0.18), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.highlight {
+    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 55%, var(--color-gold-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 24px rgba(200, 169, 106, 0.35));
+}
+
+.modal-content {
+    box-shadow: var(--shadow-lg), 0 0 60px rgba(200, 169, 106, 0.15);
+}
+
+/* 响应式：新元素在小屏下的调整 */
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .detail-name {
+        font-size: 26px;
+        letter-spacing: 3px;
+    }
+}
+
+/* ============================================================
+   【新增】SVG 图标统一样式（替换 emoji 后的高级图标）
+   ============================================================ */
+
+.icon-logo {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.icon-scene {
+    width: 56px;
+    height: 56px;
+    display: block;
+    margin: 0 auto 22px;
+}
+
+.icon-tech {
+    width: 56px;
+    height: 56px;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.icon-title {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.icon-btn {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.icon-detail {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.icon-flavor {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* 图标悬停效果 */
+.icon-scene:hover,
+.icon-tech:hover {
+    filter: drop-shadow(0 0 12px rgba(200, 169, 106, 0.6));
+    transition: filter 0.3s ease;
+}
+
+/* 图标动画 */
+@keyframes iconGlow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(200, 169, 106, 0.3)); }
+    50% { filter: drop-shadow(0 0 16px rgba(200, 169, 106, 0.5)); }
+}
+
+.icon-logo {
+    animation: iconGlow 3s ease-in-out infinite;
 }

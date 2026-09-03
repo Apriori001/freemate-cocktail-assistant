@@ -341,88 +341,144 @@ function renderRecipeCards(recipeList, container, mode) {
 function showRecipeDetail(recipe) {
     const difficultyStars = '★'.repeat(recipe.difficulty) + '☆'.repeat(5 - recipe.difficulty);
     const allergensHtml = recipe.allergens && recipe.allergens.length > 0
-        ? `<div class="safety-box" style="margin-top:16px;">⚠️ 过敏原提示：本配方含有 ${recipe.allergens.join('、')}，过敏者请谨慎饮用。</div>`
+        ? `<div class="safety-box"><span style="color:#e8a17a;">⚠️ 过敏原提示：</span>本配方含有 ${recipe.allergens.join('、')}，过敏者请谨慎饮用。</div>`
         : '';
-    
+
+    // --- 冰块形态 ---
+    const iceHtml = recipe.ice ? `
+        <div class="detail-section">
+            <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-snowflake"/></svg> 冰块形态 · 稀释与温度</h4>
+            <div class="info-grid">
+                <div class="info-cell"><span class="info-label">推荐类型</span><span class="info-value">${recipe.ice.type || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">冷冻温度</span><span class="info-value">${recipe.ice.temp || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">稀释速度</span><span class="info-value">${recipe.ice.dilution || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">视觉效果</span><span class="info-value">${recipe.ice.visual || '—'}</span></div>
+            </div>
+            ${recipe.ice.tip ? `<div class="tip-box"><strong>家庭制作技巧：</strong>${recipe.ice.tip}</div>` : ''}
+        </div>
+    ` : '';
+
+    // --- 家庭份量 ---
+    const batchHtml = recipe.batch ? `
+        <div class="detail-section">
+            <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-family"/></svg> 家庭份量 · 适用场景</h4>
+            <div class="info-grid">
+                <div class="info-cell"><span class="info-label">单人份</span><span class="info-value">${recipe.batch.single || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">家庭份</span><span class="info-value">${recipe.batch.family || '—'}</span></div>
+            </div>
+            <div class="tip-box"><strong>适用场景：</strong>${(recipe.occasion || []).join(' · ')}</div>
+        </div>
+    ` : '';
+
+    // --- 器材与替代方案 ---
+    const equipmentHtml = recipe.equipment ? `
+        <div class="detail-section">
+            <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-equipment"/></svg> 器材与替代方案</h4>
+            <div class="info-grid">
+                <div class="info-cell"><span class="info-label">必需器材</span><span class="info-value">${(recipe.equipment.need || []).join(' / ')}</span></div>
+                ${(recipe.equipment.optional && recipe.equipment.optional.length) ? `<div class="info-cell"><span class="info-label">可选器材</span><span class="info-value">${recipe.equipment.optional.join(' / ')}</span></div>` : ''}
+            </div>
+            ${recipe.equipment.alternatives ? `<div class="tip-box"><strong>家庭替代方案：</strong>${recipe.equipment.alternatives}</div>` : ''}
+        </div>
+    ` : '';
+
+    // --- 拍照搭配指南 ---
+    const photoHtml = recipe.photo ? `
+        <div class="detail-section">
+            <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-camera"/></svg> 拍照搭配指南</h4>
+            <div class="info-grid">
+                <div class="info-cell"><span class="info-label">光线建议</span><span class="info-value">${recipe.photo.light || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">背景选择</span><span class="info-value">${recipe.photo.background || '—'}</span></div>
+                <div class="info-cell"><span class="info-label">道具搭配</span><span class="info-value">${recipe.photo.props || '—'}</span></div>
+                ${recipe.photo.composition ? `<div class="info-cell"><span class="info-label">构图建议</span><span class="info-value">${recipe.photo.composition}</span></div>` : ''}
+            </div>
+            ${recipe.photo.tip ? `<div class="tip-box"><strong>摄影小技巧：</strong>${recipe.photo.tip}</div>` : ''}
+        </div>
+    ` : '';
+
     dom.recipeModal.detail.innerHTML = `
-        <div class="recipe-detail" style="padding: 48px;">
+        <div class="recipe-detail">
             <div class="recipe-detail-header">
                 <h3 class="detail-name">${recipe.name}</h3>
-                <div style="font-size: 14px; color: #b8a994; letter-spacing: 2px; margin-top: 8px;">${recipe.enName}</div>
-                <div class="detail-divider" style="width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #c9a55c, transparent); margin: 20px auto;"></div>
-                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #b8a994;">
-                    <span>类别：<strong style="color:#e8c88a;">${recipe.category}</strong></span>
-                    <span>基酒：<strong style="color:#e8c88a;">${recipe.base}</strong></span>
-                    <span>调制：<strong style="color:#e8c88a;">${recipe.method}</strong></span>
+                <div class="detail-en">${recipe.enName}</div>
+                <div class="detail-divider"></div>
+                <div class="detail-meta">
+                    <span>类别：<strong>${recipe.category}</strong></span>
+                    <span>基酒：<strong>${recipe.base}</strong></span>
+                    <span>调制：<strong>${recipe.method}</strong></span>
                 </div>
-                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #b8a994; margin-top: 10px;">
+                <div class="detail-meta">
                     <span>甜度 ${recipe.sweetness}/10</span>
                     <span>酸度 ${recipe.acidity}/10</span>
                     <span>烈度 ${recipe.strength}/10</span>
                     <span>难度 ${difficultyStars}</span>
                     <span>约 ${recipe.time} 分钟</span>
                 </div>
-                <div style="margin-top: 16px; font-size: 13px; color: #b8a994;">
-                    风味标签：${recipe.flavors.join(' · ')}
-                </div>
+                <div class="detail-flavors">风味：${recipe.flavors.join(' · ')}</div>
             </div>
-            
-            <div class="detail-section" style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">📋 材料清单</h4>
-                <table style="width: 100%; border-collapse: collapse;">
+
+            ${batchHtml}
+            ${iceHtml}
+
+            <div class="detail-section">
+                <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-list"/></svg> 材料清单</h4>
+                <table class="ingredient-table">
                     ${recipe.ingredients.map(ing => `
-                        <tr style="border-bottom: 1px solid #3d3024;">
-                            <td style="padding: 10px 8px; color: #e8c88a; font-size: 14px; font-weight: 500;">${ing.name}</td>
-                            <td style="padding: 10px 8px; text-align: center; color: #f4ece0; font-size: 14px;">${ing.amount}</td>
-                            <td style="padding: 10px 8px; text-align: right; color: #b8a994; font-size: 12px;">${ing.note || ''}</td>
+                        <tr>
+                            <td class="ing-name">${ing.name}</td>
+                            <td class="ing-amount">${ing.amount}</td>
+                            <td class="ing-note">${ing.note || ''}</td>
                         </tr>
                     `).join('')}
                 </table>
             </div>
-            
-            <div class="detail-section" style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">👨‍🍳 调制步骤</h4>
-                <ol style="list-style: none; counter-reset: step-counter; padding: 0;">
+
+            <div class="detail-section">
+                <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-chef"/></svg> 调制步骤</h4>
+                <ol class="steps-list">
                     ${recipe.steps.map((step, idx) => `
-                        <li style="counter-increment: step-counter; position: relative; padding: 12px 0 12px 52px; font-size: 14px; color: #f4ece0; line-height: 1.8; border-bottom: 1px solid #3d231c;">
-                            <span style="position: absolute; left: 0; top: 12px; width: 36px; height: 36px; background: #c9a55c; color: #1a1410; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">${idx + 1}</span>
-                            ${step}
-                        </li>
+                        <li><span class="step-num">${idx + 1}</span>${step}</li>
                     `).join('')}
                 </ol>
             </div>
-            
-            <div class="detail-section" style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">🍒 装饰建议</h4>
-                <div style="padding: 16px 20px; background: rgba(201,165,92,0.08); border: 1px solid rgba(201,165,92,0.2); border-radius: 8px; font-size: 14px; color: #f4ece0; line-height: 1.8;">${recipe.decoration}</div>
+
+            ${equipmentHtml}
+
+            <div class="detail-section">
+                <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-cherry"/></svg> 装饰建议</h4>
+                <div class="tip-box">${recipe.decoration}</div>
             </div>
-            
-            <div class="detail-section" style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">💡 小贴士</h4>
-                <div style="padding: 16px 20px; background: rgba(201,165,92,0.08); border: 1px solid rgba(201,165,92,0.2); border-radius: 8px; font-size: 14px; color: #f4ece0; line-height: 1.8;">${recipe.tips}</div>
+
+            <div class="detail-section">
+                <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-bulb"/></svg> 小贴士</h4>
+                <div class="tip-box">${recipe.tips}</div>
             </div>
-            
+
+            ${photoHtml}
+
             ${recipe.story ? `
-                <div class="detail-section" style="margin-top: 32px;">
-                    <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">📖 配方故事</h4>
-                    <div style="padding: 16px 20px; background: rgba(212,163,115,0.08); border: 1px solid rgba(212,163,115,0.2); border-radius: 8px; font-size: 14px; color: #f4ece0; line-height: 1.8; font-style: italic;">${recipe.story}</div>
+                <div class="detail-section">
+                    <h4 class="detail-heading"><svg class="icon-detail"><use href="#icon-story"/></svg> 配方故事</h4>
+                    <div class="tip-box story-box">${recipe.story}</div>
                 </div>
             ` : ''}
-            
-            <div class="safety-box" style="margin-top: 24px; padding: 16px 20px; background: rgba(201,165,92,0.08); border: 1px solid rgba(201,165,92,0.3); border-radius: 8px; font-size: 13px; color: #e8c88a; line-height: 1.8;">
-                🍸 预估酒精度：${recipe.alcohol} · 请理性饮酒，切勿酒驾！
+
+            <div class="safety-box">
+                🍸 预估酒精度：<strong>${recipe.alcohol}</strong> · 请理性饮酒，切勿酒驾！
                 ${allergensHtml}
             </div>
         </div>
     `;
-    
+
     dom.recipeModal.modal.classList.add('active');
 }
+
+
 
 // ========== 场景三：学习模式 - 技巧详情 ==========
 const techniqueDetails = {
     shake: {
-        title: '🍶 摇和法 (Shake)',
+        title: '<svg class="icon-detail"><use href="#icon-equipment"/></svg> 摇和法 (Shake)',
         description: '最基础也是最重要的调制方法，适用于含有果汁、糖浆、奶油、蛋清等成分的饮品。通过剧烈摇晃使材料充分混合，并快速降温稀释。',
         steps: [
             '将配方中的所有液体材料倒入雪克壶（Shaker）中',
@@ -573,7 +629,7 @@ function showTechniqueDetail(key) {
             </div>
             
             <div style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">📋 操作步骤</h4>
+                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;"><svg class="icon-detail"><use href="#icon-list"/></svg> 操作步骤</h4>
                 <ol style="list-style: none; counter-reset: step-counter; padding: 0;">
                     ${tech.steps.map((step, idx) => `
                         <li style="counter-increment: step-counter; position: relative; padding: 10px 0 10px 52px; font-size: 14px; color: #f4ece0; line-height: 1.8; border-bottom: 1px solid #3d231c;">
@@ -585,7 +641,7 @@ function showTechniqueDetail(key) {
             </div>
             
             <div style="margin-top: 32px;">
-                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;">💡 专业建议</h4>
+                <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c; letter-spacing: 1px;"><svg class="icon-detail"><use href="#icon-bulb"/></svg> 专业建议</h4>
                 <div style="padding: 20px; background: rgba(201,165,92,0.08); border: 1px solid rgba(201,165,92,0.2); border-radius: 8px;">
                     <ul style="list-style: none; padding: 0; margin: 0;">
                         ${tech.tips.map(tip => `
@@ -657,7 +713,7 @@ function generateCreativeRecipe() {
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px;">
                 <div>
-                    <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c;">📋 材料</h4>
+                    <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c;"><svg class="icon-detail"><use href="#icon-list"/></svg> 材料</h4>
                     <table style="width: 100%; border-collapse: collapse;">
                         ${recipe.ingredients.map(ing => `
                             <tr style="border-bottom: 1px solid #3d3024;">
@@ -669,7 +725,7 @@ function generateCreativeRecipe() {
                 </div>
                 
                 <div>
-                    <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c;">👨‍🍳 步骤</h4>
+                    <h4 style="font-size: 15px; font-weight: 700; color: #c9a55c; margin-bottom: 16px; padding-left: 12px; border-left: 3px solid #c9a55c;"><svg class="icon-detail"><use href="#icon-chef"/></svg> 步骤</h4>
                     <ol style="padding: 0; margin: 0; list-style: none;">
                         ${recipe.steps.map((step, idx) => `
                             <li style="padding: 8px 0 8px 40px; font-size: 13px; color: #f4ece0; line-height: 1.6; position: relative;">
@@ -682,11 +738,11 @@ function generateCreativeRecipe() {
             </div>
             
             <div style="margin-top: 32px; padding: 20px; background: rgba(201,165,92,0.08); border: 1px solid rgba(201,165,92,0.2); border-radius: 8px;">
-                <p style="font-size: 14px; color: #f4ece0; line-height: 1.8; margin: 0;">🍒 <strong>装饰：</strong>${recipe.decoration}</p>
+                <p style="font-size: 14px; color: #f4ece0; line-height: 1.8; margin: 0;"><svg class="icon-detail"><use href="#icon-cherry"/></svg> <strong>装饰：</strong>${recipe.decoration}</p>
             </div>
             
             <div style="margin-top: 16px; padding: 20px; background: rgba(212,163,115,0.08); border: 1px solid rgba(212,163,115,0.2); border-radius: 8px;">
-                <p style="font-size: 14px; color: #f4ece0; line-height: 1.8; margin: 0;">💡 <strong>创作思路：</strong>${recipe.story}</p>
+                <p style="font-size: 14px; color: #f4ece0; line-height: 1.8; margin: 0;"><svg class="icon-detail"><use href="#icon-bulb"/></svg> <strong>创作思路：</strong>${recipe.story}</p>
             </div>
             
             <div style="margin-top: 24px; padding: 16px; background: rgba(232,116,106,0.08); border: 1px solid rgba(232,116,106,0.3); border-radius: 8px; font-size: 13px; color: #e8c88a; line-height: 1.6;">
